@@ -1,0 +1,42 @@
+/* ********************************** */
+/* This is a suggested list of        */
+/* Functions to implement in Moodle   */
+/* or ILIAS STACK.                    */
+/* ********************************** */
+/* An explanation is written above    */
+/* each Function definition.          */
+/* ********************************** */
+/* Originally it was intended to be   */
+/* used in the first line of the      */
+/* function variables of an ILIAS     */
+/* STACK question. Therefor all       */
+/* functions are written in a single  */
+/* line.                              */
+/* ********************************** */
+
+
+/* ********************************** */
+/* Trennzeichen: */
+/* Argument: Any integer or float with less significant figures than the maximum determined by maxima settings. e.g. 1000000000 */
+/* Else use string as the argument. */
+/* Return: Returns a string. Adds a Space after 3 digits of the number or string. e.g. 1 000 000 000 */
+Trennzeichen(zahl):=(if numberp(zahl)=true then zahl:string(zahl),if ssearch(".",zahl)=false then (l:slength(zahl), while l>3 do (l:(l-3), (zahl:sinsert(" ",zahl,l+1)))) else (nachkommastellen:sconcat(".",part(split(zahl,"."),2)), vorkommastellen:part(split(zahl,"."),1), l:slength(vorkommastellen), while l>3 do (l:(l-3),(vorkommastellen:sinsert(" ",vorkommastellen,l+1))), zahl:sconcat(vorkommastellen,nachkommastellen)),zahl);
+/* ********************************** */
+
+
+/* ********************************** */
+/* round2: */
+/* Argument1: Any float or integer. */
+/* Argument2: Any positive or negative integer. */
+/* Returns: Argument1 rounded to Argument2 significant figures after the decimal point using bankers rounding. */
+round2(ZTV,ZTN):=(if ZTV*10^ZTN-floor(ZTV*10^ZTN)<0.5 then float(floor(ZTV*10^ZTN)*10^-ZTN) else float(floor(ZTV*10^ZTN+1)*10^-ZTN));
+/* ********************************** */
+
+
+/* ********************************** */
+/* Boxi: */
+/* Argument: Any list or matrix */
+/* Returns: Boxplot i.e. plot object from a list or matrix, where each line is another data set. Data needs to be numerical values.*/
+Boxi(MaLi):=( if is(numberp(MaLi[1])=true) then MaLi:[MaLi],MLaen:length(MaLi), PlotArray:[],GMaxxi:-10000, GMinni:10000, for i:1 thru MLaen do (Listi:sort(MaLi[i]), Laeng:length(Listi), Q1:Listi[ceiling(Laeng/4)], Q2:Listi[ceiling(3*Laeng/4)], Minni:first(Listi),GMinni:min(GMinni,Minni), Maxxi:last(Listi), GMaxxi:max(GMaxxi,Maxxi),Meddi:Listi[ceiling(Laeng/2)],PlotArray:append(PlotArray,[[discrete,[[-Del+i,Meddi],[Del+i,Meddi]]],[discrete,[[-Del+i,Q1],[Del+i,Q1],[Del+i,Q2],[-Del+i,Q2],[-Del+i,Q1]]],[discrete,[[-del+i,Maxxi],[del+i,Maxxi],[i,Maxxi],[i,Q2]]],[discrete,[[-del+i,Minni],[del+i,Minni],[i,Minni],[i,Q1]]]])), del:0.1, Del:0.4, Plotti:plot(PlotArray, [x,-Del*2-del+1,del+Del*2+MLaen],[y,GMinni-0.5,GMaxxi+0.5],[xtics,-1,MLaen+3,MLaen+3],[color,red,black,black,black]));
+/* ********************************** */
+
